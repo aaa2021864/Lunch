@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>阿堆午餐</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;900&display=swap">
+<style>
+:root{
+  --bg:#e6f0f8; --sky:#c9e0f1; --snow:#ffffff; --snow-edge:#a9c4d8; --ink:#1d3350; --muted:#587089;
+  --line:#b9d0e1; --surface:#f7fbfe; --accent:#c23a36; --accent-ink:#ffffff; --scarf:#d64541; --coal:#2b2f36; --carrot:#f08a24;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101b30; --sky:#1b2d4b; --snow:#e9f1f9; --snow-edge:#8fa9c4; --ink:#e8f0f8; --muted:#9bb0c6;
+    --line:#2d4263; --surface:#172641; --accent:#ff8a82; --accent-ink:#101b30; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101b30; --sky:#1b2d4b; --snow:#e9f1f9; --snow-edge:#8fa9c4; --ink:#e8f0f8; --muted:#9bb0c6;
+  --line:#2d4263; --surface:#172641; --accent:#ff8a82; --accent-ink:#101b30; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.6}
+main{max-width:30rem;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+h1{font-size:1rem;font-weight:500;color:var(--muted);margin:0 0 1rem}
+.stage{background:var(--sky);border-radius:1.5rem;padding:1.25rem 1rem 1.5rem;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:.25rem}
+svg{width:100%;max-width:15rem;height:auto;display:block}
+.snow{fill:var(--snow);stroke:var(--snow-edge);stroke-width:2}
+.part{opacity:0;transform:scale(.4) translateY(14px);transform-box:fill-box;transform-origin:50% 100%;
+  transition:opacity .25s ease,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.part.on{opacity:1;transform:none}
+.result{font-size:clamp(2.4rem,13vw,3.8rem);font-weight:900;line-height:1.15;word-break:keep-all;color:var(--ink)}
+.result.spin{color:var(--muted)}
+.hint{color:var(--muted);font-size:.9rem;min-height:1.4em}
+button{font:inherit;cursor:pointer;border-radius:.75rem}
+button:focus-visible,input:focus-visible{outline:3px solid var(--scarf);outline-offset:2px}
+.go{width:100%;margin-top:1rem;padding:1rem;font-size:1.25rem;font-weight:900;border:0;
+  background:var(--accent);color:var(--accent-ink)}
+.go:disabled{opacity:.6;cursor:default}
+h2{font-size:1rem;margin:2.25rem 0 .75rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;list-style:none}
+.chips li{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--line);
+  border-radius:999px;padding:.2rem .3rem .2rem .85rem}
+.chips button{border:0;background:none;color:var(--muted);width:1.75rem;height:1.75rem;font-size:1.1rem;line-height:1}
+.chips button:hover{color:var(--ink)}
+.add{display:flex;gap:.5rem;margin-top:1rem}
+.add input{flex:1;min-width:0;font:inherit;padding:.65rem .85rem;border:1.5px solid var(--line);
+  border-radius:.75rem;background:var(--surface);color:var(--ink)}
+.add button{padding:.65rem 1.1rem;border:1.5px solid var(--ink);background:none;color:var(--ink);font-weight:500}
+.reset{margin-top:1rem;border:0;background:none;color:var(--muted);text-decoration:underline;padding:.25rem 0}
+@media (prefers-reduced-motion:reduce){.part{transition:none;transform:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>阿堆午餐</h1>
+  <div class="stage" aria-live="polite">
+    <svg viewBox="0 0 220 250" role="img" aria-label="正在堆的雪人">
+      <ellipse class="snow" cx="110" cy="236" rx="104" ry="14"/>
+      <circle id="p1" class="snow part" cx="110" cy="184" r="52"/>
+      <circle id="p2" class="snow part" cx="110" cy="114" r="38"/>
+      <circle id="p3" class="snow part" cx="110" cy="60" r="28"/>
+      <g id="p4" class="part">
+        <path d="M74 110 L38 90 M146 110 L182 88" stroke="var(--coal)" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <rect x="88" y="16" width="44" height="22" rx="3" fill="var(--coal)"/>
+        <rect x="80" y="34" width="60" height="6" rx="3" fill="var(--coal)"/>
+        <circle cx="101" cy="56" r="3" fill="var(--coal)"/><circle cx="119" cy="56" r="3" fill="var(--coal)"/>
+        <polygon points="110,62 134,66 110,70" fill="var(--carrot)"/>
+        <g fill="var(--coal)"><circle cx="98" cy="71" r="1.8"/><circle cx="104" cy="75" r="1.8"/><circle cx="116" cy="75" r="1.8"/><circle cx="122" cy="71" r="1.8"/></g>
+        <rect x="84" y="82" width="52" height="11" rx="5.5" fill="var(--scarf)"/>
+        <rect x="120" y="88" width="11" height="28" rx="4" fill="var(--scarf)"/>
+        <g fill="var(--coal)"><circle cx="110" cy="108" r="3.5"/><circle cx="110" cy="122" r="3.5"/><circle cx="110" cy="136" r="3.5"/></g>
+      </g>
+    </svg>
+    <div class="result" id="result">吃什麼?</div>
+    <div class="hint" id="hint">按下按鈕,開始堆雪人</div>
+  </div>
+  <button class="go" id="go">堆雪人抽午餐</button>
+
+  <h2>候選清單</h2>
+  <ul class="chips" id="chips"></ul>
+  <div class="add">
+    <input id="newFood" type="text" placeholder="新增一個選項" maxlength="12" aria-label="新增選項">
+    <button id="addBtn">新增</button>
+  </div>
+  <button class="reset" id="reset">還原預設清單</button>
+</main>
+<script>
+(function(){
+  var DEFAULTS=["牛肉湯","擔仔麵","鱔魚意麵","虱目魚粥","碗粿","排骨便當","水餃","麥當勞"];
+  var foods=DEFAULTS.slice(), last="", busy=false;
+  try{var s=localStorage.getItem("lunch-foods");if(s){var p=JSON.parse(s);if(Array.isArray(p)&&p.length)foods=p;}}catch(e){}
+  try{last=localStorage.getItem("lunch-last")||"";}catch(e){}
+
+  var $=function(id){return document.getElementById(id)};
+  var result=$("result"),hint=$("hint"),go=$("go"),chips=$("chips"),input=$("newFood");
+  var parts=[$("p1"),$("p2"),$("p3"),$("p4")];
+
+  function save(){try{localStorage.setItem("lunch-foods",JSON.stringify(foods));}catch(e){}}
+  function render(){
+    chips.innerHTML="";
+    foods.forEach(function(f,i){
+      var li=document.createElement("li");
+      li.appendChild(document.createTextNode(f));
+      var b=document.createElement("button");
+      b.textContent="×";b.setAttribute("aria-label","刪除"+f);
+      b.onclick=function(){foods.splice(i,1);save();render();};
+      li.appendChild(b);chips.appendChild(li);
+    });
+    go.disabled=foods.length===0;
+    if(!foods.length)hint.textContent="清單是空的,先新增幾個選項";
+  }
+  function pick(){
+    var pool=foods.filter(function(f){return f!==last});
+    if(!pool.length)pool=foods;
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+  function show(k){parts.forEach(function(el,i){el.classList.toggle("on",i<k);});}
+  function draw(){
+    if(busy||!foods.length)return;
+    var final=pick(), reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function land(){
+      show(4);result.className="result";result.textContent=final;
+      hint.textContent=foods.length>1?"雪人完成!不滿意就再堆一個":"清單只有一個選項";
+      last=final;try{localStorage.setItem("lunch-last",last);}catch(e){}
+      busy=false;go.disabled=false;go.textContent="再堆一個";
+    }
+    busy=true;go.disabled=true;hint.textContent="堆雪球中⋯⋯";show(0);
+    if(reduce||foods.length===1){land();return;}
+    result.className="result spin";
+    var n=0,total=16;
+    (function tick(){
+      if(n>=total){land();return;}
+      result.textContent=foods[Math.floor(Math.random()*foods.length)];
+      if(n===1)show(1);else if(n===6)show(2);else if(n===11)show(3);
+      n++;setTimeout(tick,60+n*n*1.4);
+    })();
+  }
+  function add(){
+    var v=input.value.trim();
+    if(!v||foods.indexOf(v)>-1){input.value="";return;}
+    foods.push(v);input.value="";save();render();
+  }
+  go.onclick=draw;
+  $("addBtn").onclick=add;
+  input.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.isComposing)add();});
+  $("reset").onclick=function(){foods=DEFAULTS.slice();save();render();hint.textContent="已還原預設清單";};
+  render();
+})();
+</script>
+</body>
+</html>
